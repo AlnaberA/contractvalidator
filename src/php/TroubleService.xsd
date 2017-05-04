@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://trouble.outagemanagement.esm.dteco.com/v1/report" 
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+		   xmlns:msg="http://esm.dteco.com/common/v1" 
+		   targetNamespace="http://trouble.outagemanagement.esm.dteco.com/v1/report" 
+		   elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://esm.dteco.com/common/v1" schemaLocation="CommonMessages.xsd"/>
+	<xs:complexType name="ReportTroubleRequest">
+		<xs:sequence>
+			<xs:element ref="msg:Header"/>
+			<xs:element name="Trouble" type="TroubleType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StatusRequest">
+		<xs:sequence>
+			<xs:element ref="msg:Header"/>
+			<xs:element name="Trouble" type="StatusRequestType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UpdateRemarksRequest">
+		<xs:sequence>
+			<xs:element ref="msg:Header"/>
+			<xs:element name="Trouble" type="UpdateRemarksType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RestorationStatusResponse">
+		<xs:sequence>
+			<xs:element ref="msg:Header"/>
+			<xs:element ref="msg:Reply"/>
+			<xs:element name="RestorationStatus" type="RestorationStatusType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UpdateRemarksResponse">
+		<xs:sequence>
+			<xs:element ref="msg:Header"/>
+			<xs:element ref="msg:Reply"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UpdateRemarksType">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>
+					applicationId and requestorId are used only for logging.
+					TroubleId is used to retrieve the Inservice Job Id.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:element name="applicationId" nillable="false" type="xs:string"/>
+			<xs:element name="requestorId" nillable="false" type="xs:string"/>			
+			<xs:element name="troubleId" nillable="true" type="xs:long"/>
+			<xs:element name="inSvcjobId" nillable="true" type="xs:string"/>			
+			<xs:element name="remarks" nillable="false" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StatusRequestType">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>
+					You can request either by premiseId or troubleId.  In case of premiseId and if no 
+					trouble code is provided then if there are more than one troubles associated 
+					and both are non-outage type then the earliest created trouble will be used to 
+					retrieve status.
+					
+					In case of troubleId , there is no need to send the trouble code.
+				</xs:documentation>
+			</xs:annotation>
+			<xs:element name="applicationId" nillable="false" type="xs:string"/>
+			<xs:element name="requestorId" nillable="false" type="xs:string"/>
+			<xs:element name="premiseId" nillable="true" type="xs:long"/>
+			<xs:element name="troubleId" nillable="true" type="xs:long"/>
+			<xs:element name="zipcode" nillable="true" type="xs:string"/>
+			<xs:element name="includeRemarks" nillable="false" type="xs:boolean"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TroubleType">
+		<xs:sequence>
+			<xs:annotation>
+				<xs:documentation>
+						Trouble can be reported on a Premise (In this case Premise is required)
+						Trouble can be reported on intersection (In this case both cross streets are required)
+						Trouble can be reported on address of a location (In this case address is required)
+				</xs:documentation>
+			</xs:annotation>
+			<xs:element name="applicationId" nillable="false" type="xs:string"/>
+			<xs:element name="requestorId" nillable="false" type="xs:string"/>
+			<xs:element name="troubleCode" nillable="false" type="xs:string"/>
+			<xs:element name="paymentStatusCode" nillable="false" type="xs:string"/>
+			<xs:element name="contactInfo" nillable="false" type="ContactInfoType"/>
+			<xs:element name="notificationTime" nillable="false" type="xs:dateTime"/>
+			<xs:element name="remarks" nillable="true" type="xs:string"/>
+			<xs:element name="troubleLocation" nillable="true" type="TroubleLocationType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContactInfoType">
+		<xs:sequence>
+               <xs:element name="contactInformation" nillable="true" type="xs:string" />
+               <xs:element name="contactPreference" nillable="true"  type="xs:string" />
+               <xs:element name="contactPhone" nillable="true"       type="xs:string" />
+               <xs:element name="customerName" nillable="true"       type="xs:string" />
+               <xs:element name="contactEmail" nillable="true"       type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	 <xs:complexType name="RestorationStatusType">
+                <xs:sequence>
+                	<xs:element name="applicationId" nillable="true"
+                                 type="xs:string"/>
+                    <xs:element name="requestorId" nillable="true"
+                                 type="xs:string"/>
+                    <xs:element name="troubleId" nillable="true"
+                                 type="xs:long"/>
+                    <xs:element name="insvcJobId" nillable="true"
+                                 type="xs:string"/>
+                    <xs:element name="jobStatus" nillable="true"
+                                 type="xs:string"/>
+                    <xs:element name="crewId" nillable="true"
+                                 type="xs:string"/>
+                    <xs:element name="crewStatus" nillable="true"
+                                 type="xs:string"/>
+                    <xs:element name="crewDispatchDate" nillable="true"
+                                 type="xs:dateTime"/>
+                    <xs:element name="xPosition" nillable="true"
+                                 type="xs:long"/>    
+                    <xs:element name="yPosition" nillable="true"
+                                 type="xs:long"/>         
+                    <xs:element name="troubleCode" nillable="true"
+                                 type="xs:string"/>
+                    <xs:element name="estimatedStartTime" nillable="true"
+                                 type="xs:dateTime"/>
+                    <xs:element name="estimatedEndTime" nillable="true"
+                                 type="xs:dateTime"/>
+                    <xs:element name="estimatedTimeLimit" nillable="true"
+                                 type="xs:int"/>
+                    <xs:element name="estimationType" nillable="true"
+                                 type="xs:string"/>     
+                    <xs:element name="estimateSubType" nillable="true"
+                                 type="xs:string"/>    
+                    <xs:element name="estimateChanged" nillable="true"
+                    			 type="xs:boolean"/>
+                    <xs:element name="circuit" nillable="true"
+                                 type="xs:string"/>
+                    <xs:element name="region" nillable="true"
+                                 type="xs:string"/>
+                    <xs:element name="dispatchGroup" nillable="true"
+                                 type="xs:string"/>
+                    <xs:element name="numberOfCustomersAffected"
+                                 nillable="true" type="xs:int"/>
+                    <xs:element name="numberOfCustomersStillOut"
+                                 nillable="true" type="xs:int"/>
+                    <xs:element name="offDate" nillable="true"
+                                 type="xs:dateTime"/>
+                    <xs:element name="onDate" nillable="true"
+                                 type="xs:dateTime"/>
+                    <xs:element name="remarks" nillable="true"
+                                 type="xs:string"/>
+                   	<xs:element name="causeCode" nillable="true"
+                                 type="xs:string"/>              
+                    <xs:element name="actionTaken" nillable="true" type="xs:string"/>
+                    <xs:element name="businessException" nillable="true"
+                                 type="xs:string"/>
+                    <xs:element name="outage" nillable="false"
+                                 type="xs:boolean"/>
+                    <xs:element name="premiseId" nillable="true" type="xs:long" />
+                    <xs:element name="municipality" nillable="true" type="xs:string" />
+                    <xs:element name="address" nillable="true" type="xs:string" />
+                    <xs:element name="streetAddress" nillable="true" type="xs:string" />
+                    <xs:element name="zipcode" nillable="true" type="xs:string" />
+                </xs:sequence>
+       </xs:complexType>      
+       <xs:complexType name="TroubleLocationType">
+       		<xs:sequence>
+       			 <xs:element name="premiseId" nillable="true" type="xs:long"/>
+       			 <xs:element name="crossStreet1" nillable="true"
+	            	type="xs:string" />
+	       		 <xs:element name="crossStreet2" nillable="true"
+	            	type="xs:string" />
+	             <xs:element name="municipality" nillable="true" type="xs:string"/>
+	             <xs:element name="addressOfLocation" nillable="true"
+	            	type="xs:string" />
+       		</xs:sequence>
+       </xs:complexType>
+</xs:schema>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2007 sp2 (http://www.altova.com) by Rama Devi Shanigarapu(DTE Energy) -->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+				  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+ 				  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+ 				  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+ 				  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
+ 				  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" 
+ 				  xmlns:tns="http://outagemanagement.esm.dteco.com/trouble/v1" 
+ 				  xmlns:msg="http://esm.dteco.com/common/v1" 
+ 				  xmlns:trq="http://trouble.outagemanagement.esm.dteco.com/v1/report" 
+ 				  targetNamespace="http://outagemanagement.esm.dteco.com/trouble/v1">
+	<wsdl:types>
+		<xs:schema xmlns:tr="http://trouble.outagemanagement.esm.dteco.com/v1/report" targetNamespace="http://outagemanagement.esm.dteco.com/trouble/v1" elementFormDefault="qualified" attributeFormDefault="unqualified">
+			<xs:import namespace="http://trouble.outagemanagement.esm.dteco.com/v1/report" schemaLocation="TroubleService.xsd"/>
+			<xs:import namespace="http://esm.dteco.com/common/v1" schemaLocation="CommonMessages.xsd"/>
+			<xs:element name="ReportTrouble" type="trq:ReportTroubleRequest"/>
+			<xs:element name="RestorationStatus" type="trq:RestorationStatusResponse"/>
+			<xs:element name="GetRestorationStatus" type="trq:StatusRequest"/>
+			<xs:element name="UpdateRemarks" type="trq:UpdateRemarksRequest"/>
+			<xs:element name="UpdateRemarksReply" type="trq:UpdateRemarksResponse"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="ReportTroubleRequest">
+		<wsdl:part name="parameters" element="tns:ReportTrouble"/>
+	</wsdl:message>
+	<wsdl:message name="ReportTroubleResponse">
+		<wsdl:part name="parameters" element="tns:RestorationStatus"/>
+	</wsdl:message>
+	<wsdl:message name="GetRestorationStatusResponse">
+		<wsdl:part name="parameters" element="tns:RestorationStatus"/>
+	</wsdl:message>
+	<wsdl:message name="GetRestorationStatusRequest">
+		<wsdl:part name="parameters" element="tns:GetRestorationStatus"/>
+	</wsdl:message>
+	<wsdl:message name="UpdateRemarksRequest">
+		<wsdl:part name="parameters" element="tns:UpdateRemarks"/>
+	</wsdl:message>
+	<wsdl:message name="UpdateRemarksResponse">
+		<wsdl:part name="parameters" element="tns:UpdateRemarksReply"/>
+	</wsdl:message>
+	<wsdl:portType name="TroublePort">
+		<wsdl:operation name="ReportTrouble">
+			<wsdl:input message="tns:ReportTroubleRequest"/>
+			<wsdl:output message="tns:ReportTroubleResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetRestorationStatus">
+			<wsdl:input message="tns:GetRestorationStatusRequest"/>
+			<wsdl:output message="tns:GetRestorationStatusResponse"/>
+		</wsdl:operation>
+		<wsdl:operation name="UpdateRemarks">
+			<wsdl:input message="tns:UpdateRemarksRequest"/>
+			<wsdl:output message="tns:UpdateRemarksResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="TroubleBinding" type="tns:TroublePort">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="ReportTrouble">
+			<soap:operation soapAction="ReportTrouble"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>	
+		<wsdl:operation name="GetRestorationStatus">
+			<soap:operation soapAction="GetRestorationStatus"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>	
+		<wsdl:operation name="UpdateRemarks">
+			<soap:operation soapAction="UpdateRemarks"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>			
+	</wsdl:binding>
+	<wsdl:service name="TroubleService">
+		<wsdl:port name="TroublePort" binding="tns:TroubleBinding">
+			<soap:address location="ACTUAL_URL_GOES_HERE"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
